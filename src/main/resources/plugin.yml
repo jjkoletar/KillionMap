@@ -1,0 +1,5 @@
+name: KillionMap
+description: Image maps for the Killion Detention Center server.
+author: Omlet
+main: me.omlet.killionmap.KillionMap
+version: 0.1
