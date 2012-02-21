@@ -1,4 +1,4 @@
-package me.omlet.listener;
+package me.omlet.killionmap.listener;
 
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldLoadEvent;

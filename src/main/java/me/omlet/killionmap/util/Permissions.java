@@ -1,4 +1,4 @@
-package me.omlet.util;
+package me.omlet.killionmap.util;
 
 import me.omlet.killionmap.KillionMap;
 import org.bukkit.entity.Player;

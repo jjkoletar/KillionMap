@@ -2,7 +2,7 @@ package me.omlet.killionmap;
 
 import java.io.File;
 import java.util.logging.Level;
-import me.omlet.util.MiscUtil;
+import me.omlet.killionmap.util.MiscUtil;
 import org.bukkit.configuration.Configuration;
 
 /**

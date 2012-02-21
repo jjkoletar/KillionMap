@@ -1,4 +1,4 @@
-package me.omlet.map;
+package me.omlet.killionmap.map;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,9 +14,8 @@ import java.util.logging.Level;
 import javax.imageio.ImageIO;
 import me.omlet.killionmap.KMConfig;
 import me.omlet.killionmap.KillionMap;
-import me.omlet.util.MiscUtil;
+import me.omlet.killionmap.util.MiscUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.map.MapPalette;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
@@ -25,9 +24,6 @@ public class KillionMapImage {
     
     private MapView mapView = null;
     private BufferedImage image = null;
-    
-    public static KillionMap plugin;
-    public FileConfiguration config;
     
     private static final String CACHED_FILE_FORMAT = "png";
     public static final String IMAGE_FILE = "imagefile";
@@ -52,7 +48,6 @@ public class KillionMapImage {
     
     private BufferedImage loadImage(String file) {
         image = null;
-        config = plugin.getConfig();
         
         try {
             URL url = KillionMap.makeImageURL(file);

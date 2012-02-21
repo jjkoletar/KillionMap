@@ -1,4 +1,4 @@
-package me.omlet.util;
+package me.omlet.killionmap.util;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

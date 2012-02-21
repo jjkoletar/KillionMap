@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package me.omlet.command;
+package me.omlet.killionmap.command;
 
 import java.util.logging.Level;
 import me.omlet.killionmap.KillionMap;
-import me.omlet.util.MiscUtil;
+import me.omlet.killionmap.util.MiscUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -39,10 +39,14 @@ public class MapCommandExecutor implements CommandExecutor {
 					cmd = new MapWrite(plugin, args, player);
 				}
 				
-				// casino addmanaged
+				// give map
 				else if(args[0].equalsIgnoreCase("give")) {
 					cmd = new MapGive(plugin, args, player);
 				}
+                                
+                                else if(args[0].equalsIgnoreCase("remove")) {
+                                        cmd = new MapRemove(plugin, args, player);
+                                }
 				
 				// invalid command
 				else {
