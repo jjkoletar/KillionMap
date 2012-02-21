@@ -5,9 +5,13 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
-import me.omlet.command.MapWriteCommand;
+import me.omlet.command.MapCommandExecutor;
+import me.omlet.map.KillionMapImage;
+import me.omlet.listener.KillionMapWorldListener;
 import me.omlet.map.KillionMapRenderer;
 import me.omlet.util.MiscUtil;
+import me.omlet.util.Permissions;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,12 +20,12 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author Omlet
  */
 public class KillionMap extends JavaPlugin {
+    
     private FileConfiguration config;
     
-    private KillionMapRenderer mapRenderer = null;
-    private BufferedImage image = null;
+    public Permissions permission = new Permissions(this);
     
-    private MapWriteCommand km = new MapWriteCommand(this);
+    private MapCommandExecutor commandExecutor;
     
     private static KillionMap instance = null;
     
@@ -38,13 +42,16 @@ public class KillionMap extends JavaPlugin {
         
         KMConfig.init(this);
         
-        getCommand("km").setExecutor(km);
+        Bukkit.getServer().getPluginManager().registerEvents(new KillionMapWorldListener(), this);
         
-        MiscUtil.log(Level.INFO, getDescription().getName() + " version " + getDescription().getVersion() + " is enabled!" );
+        commandExecutor = new MapCommandExecutor(this);
+        getCommand("km").setExecutor(commandExecutor);
+        
+        MiscUtil.log(Level.INFO, getDescription().getName() + " version " + getDescription().getVersion() + " (by Omlet) is enabled!" );
     }
     
     public void onDisable() {
-        MiscUtil.log(Level.INFO, getDescription().getName() + " version " + getDescription().getVersion() + " is disabled!" );
+        MiscUtil.log(Level.INFO, getDescription().getName() + " version " + getDescription().getVersion() + " (by Omlet) is disabled!" );
     }
     
     public static URL makeImageURL(String path) throws MalformedURLException {

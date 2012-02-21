@@ -1,4 +1,4 @@
-package me.omlet.command;
+package me.omlet.map;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,64 +8,51 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import javax.imageio.ImageIO;
 import me.omlet.killionmap.KMConfig;
 import me.omlet.killionmap.KillionMap;
-import me.omlet.map.KillionMapRenderer;
 import me.omlet.util.MiscUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.map.MapPalette;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 
-public class MapWriteCommand implements CommandExecutor {
+public class KillionMapImage {
     
     private MapView mapView = null;
-    private KillionMapRenderer mapRenderer = null;
     private BufferedImage image = null;
-    private List<MapRenderer> previousRenderers = new ArrayList<MapRenderer>();
     
     public static KillionMap plugin;
+    public FileConfiguration config;
     
     private static final String CACHED_FILE_FORMAT = "png";
     public static final String IMAGE_FILE = "imagefile";
     
-    private static Map<Short,MapWriteCommand> allMapViews = new HashMap<Short, MapWriteCommand>();
+    private static Map<Short,KillionMapImage> allMapViews = new HashMap<Short, KillionMapImage>();
     
-    public MapWriteCommand (KillionMap instance) {
-        plugin = instance;
-    }
-    
-    public void setMapId(short id) {
+    public void setupMap(short id, String str) {
+        
+        KillionMapRenderer renderer = new KillionMapRenderer(loadImage(str));
         mapView = Bukkit.getServer().getMap(id);
         
         for (MapRenderer r : mapView.getRenderers()) {
-            previousRenderers.add(r);
+            //previousRenderers.add(r);
             mapView.removeRenderer(r);
         }
         
-        mapView.addRenderer(getMapRenderer());
+        mapView.addRenderer(renderer);
         
         allMapViews.put(mapView.getId(), this);
         
-        loadBackgroundImage();
     }
     
-    private void loadBackgroundImage() {
+    private BufferedImage loadImage(String file) {
         image = null;
-        
-        String file = getAttributeAsString(IMAGE_FILE, "");
-        if (file.isEmpty()) {
-            return;
-        }
+        config = plugin.getConfig();
         
         try {
             URL url = KillionMap.makeImageURL(file);
@@ -81,12 +68,13 @@ public class MapWriteCommand implements CommandExecutor {
                     MiscUtil.log(Level.INFO, "Cached image " + url + " as " + cached);
                 }
             }
-            image = resizedImage;
+            return resizedImage;
         } catch (MalformedURLException e) {
-            MiscUtil.log(Level.WARNING, "malformed image URL for map view " + getName() + ": " + e.getMessage());
+            MiscUtil.log(Level.WARNING, "malformed image URL for map view " + ": " + e.getMessage());
         } catch (IOException e) {
-            MiscUtil.log(Level.WARNING, "cannot load image URL for map view " + getName() + ": " + e.getMessage());
+            MiscUtil.log(Level.WARNING, "cannot load image URL for map view " + ": " + e.getMessage());
         }
+        return null;
     }
     
     private static File getCachedFile(URL url) {
@@ -103,27 +91,8 @@ public class MapWriteCommand implements CommandExecutor {
         }
     }
     
-    public KillionMapRenderer getMapRenderer() {
-        return mapRenderer;
-    }
-    
     public BufferedImage getImage() {
         return image;
     }
     
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        String str;     
-        if(args.length >= 1) {
-            if (cmd.getName().equalsIgnoreCase("km")) {
-                str = args[0];
-                
-                if(str.equalsIgnoreCase("write")) {
-                    
-                    sender.sendMessage("Map" + " 's image has been sucessfully changed!");
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 }

@@ -18,6 +18,7 @@ public class KMConfig {
     
     static void init(KillionMap plugin) {
         setupDirectoryStructure();
+        initConfigFile();
     }
     
     private static void setupDirectoryStructure() {
@@ -36,6 +37,10 @@ public class KMConfig {
         if (!dir.mkdir()) {
             MiscUtil.log(Level.WARNING, "Can't make directory " + dir.getName());
         }
+    }
+    
+    private static void initConfigFile() {
+        KillionMap.getInstance().saveConfig();
     }
     
     public static File getImgCacheFolder() {

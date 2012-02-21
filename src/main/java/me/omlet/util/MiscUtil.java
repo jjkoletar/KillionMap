@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class MiscUtil {
 	private static String prevColour = ChatColor.WHITE.toString();
 	protected static final Logger logger = Logger.getLogger("Minecraft");
-	protected static final String messageFormat = "[ScrollingMenuSign]: %s";
+	protected static final String messageFormat = "[KillionMap]: %s";
 
 	public static void errorMessage(Player player, String string) {
 		prevColour = ChatColor.RED.toString();

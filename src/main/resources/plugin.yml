@@ -3,3 +3,10 @@ description: Image maps for the Killion Detention Center server.
 author: Omlet
 main: me.omlet.killionmap.KillionMap
 version: 0.1
+commands:
+  km:
+    description: KillionMap
+    usage: Incorrect command syntax. Check /<command> for command guide.
+permissions:
+  killionmap.use:
+    description: Allows the use of maps
